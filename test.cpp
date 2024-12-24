@@ -1,32 +1,45 @@
-// Online C++ compiler to run C++ program online
-#include <iostream>
 #include <bits/stdc++.h>
 using namespace std;
+
+void fast_io() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+}
+
 int main() {
-    // Write C++ code here
+    fast_io();
     int t;
-    cin>>t;
-    while(t--){
-        long long k, l1, r1, l2, r2;
-        cin >> k >> l1 >> r1 >> l2 >> r2;
-
-        long long count = 0;
-        long long loop = 0;
-        long long power = 1;
-        long long limit = (r2+l1-1)/l1;
-
-        for(long long power = 1; power <= limit; power*=k){
-
-            long long mini = power*l1;
-            long long maxi = power*r1;
-            if(maxi >=l2 && mini<=r2){
-                long long start = max(mini,l2);
-                long long end = min(maxi,r2);
-                count = count + (end-start +power)/power;
-            }
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> v(n);
+        for (int i = 0; i < n; i++) {
+            int temp;
+            cin >> temp;
+            v[i] = {temp, i};
         }
-            
-        cout << count << endl;
         
+        sort(v.begin(), v.end());
+
+        int swaps = 0;
+        vector<bool> visited(n, false);
+        
+        for (int i = 0; i < n; i++) {
+            if (visited[i] || v[i][1] == i ) continue;
+            
+            int j = i;
+
+            while (!visited[j]) {
+                visited[j] = true;
+                j = v[j][1];
+                swaps++;
+            }
+            swaps--;
+        }
+
+        cout << swaps << endl;
     }
+    return 0;
 }
